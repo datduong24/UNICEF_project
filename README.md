@@ -21,7 +21,7 @@ We first addressed potential data issues to ensure reliability before modeling:
 - Tested significance of the relationships using chi-square tests, t-tests, point-biserial correlations, and other statistical methods.
 
 
-### Key Findings
+#### Key Findings
 - **Campaign contact bias:** UNICEF’s data lacked clear information on how many times donors were approached for Regular Giver (RG) conversion. To address this, we identified campaigns most likely designed for RG acquisition and excluded donors unlikely to have been contacted. A chi-square test confirmed statistical significance (*p* < 0.001).  
 - **Donor demographics:** Donors aged **20–40** and living in **high-income suburbs** showed the highest conversion likelihood.
 - **Availability indicator:** The likelihood of conversion follows an inverted U-shaped pattern with respect to the number of contact methods provided.
@@ -31,9 +31,37 @@ We first addressed potential data issues to ensure reliability before modeling:
 ⚠️ **Note on data leakage:** Recency was included as a predictor, but since it requires assumptions about time snapshots, it is interpreted cautiously as a strategic indicator rather than a pure predictive feature.  
 
 
+### Feature Engineering
+
+To capture key behavioral and demographic factors, we engineered several new features and refined existing ones:  
+
+- **Donor segmentation:** Separated single-gift (SG), recurring-gift (RG), and converters to study behavior patterns leading up to conversion. Found that most conversions occur within 3 months of consistent donations, while late converters (~3 years) are rare outliers (<4%).  
+- **Demographic profiling:** Used ABS and Mosaic data to classify suburbs by income and age groups (high, medium, low income; young, middle-aged, elderly; households with/without children). Each suburb was represented as a mix of household types, capturing both dominant and non-dominant influences on donation behavior.  
+- **Postcode encoding:** Applied K-fold target encoding by postcode to reduce bias and approximate cultural factors influencing donor behavior.  
+- **RFM features:** Created Recency, Frequency, and Monetary variables within a 30-day snapshot, confirming that donors with consistent, moderate giving patterns are more likely to convert than those with sporadic large gifts.  
+- **Contactability:** Engineered a variable combining preferred and available contact methods, revealing an inverted U-shaped relationship between number of channels and conversion likelihood.  
+
+These engineered features significantly improved model accuracy while aligning variables with real-world donor engagement patterns.  
 
 
+### Model Selection
 
+We evaluated several classification models to predict donor conversion, optimizing them using PR AUC metric:  
+- **Decision Tree** – baseline model, tuned using cross-validation.  
+- **Random Forest** – trained with out-of-bag and boostrapping sampling to reduce computation time and improve generalization.  
+- **XGBoost** – leveraged GPU acceleration (RAPIDS cuDF) for efficient training; tuned with random search cross-validation.  
+- **Neural Network (TensorFlow)** – built with 4–6 hidden layers, ReLU activation, and early stopping to prevent overfitting.  
 
+#### Handling Class Imbalance
+Since only a small proportion of donors convert, we balanced classes by:  
+- Using the `class_weight="balanced"` option where available.  
+- Applying sample reweighting for models without built-in class balancing.
 
+## Evaluation
 
+Models were compared using **Average F1 score** as the primary metric, given the class imbalance. ROC AUC and PR AUC were also reported for robustness.  
+
+- **Decision Tree** – offered high interpretability but had the weakest performance, with an F1-score of 0.58.
+- **Random Forest** – achieved strong predictive power with PR AUC of 0.182 and F1 score of 0.605, but required longer training times.  
+- **XGBoost** – delivered the best overall performance, achieving a **5x lift over the random baseline**  with PR AUC of 0.188 and performing twice as well as UNICEF’s current approach. The model achieved the F1 score of 0.608
+- **Neural Network** – underperformed compare to XGboost and Random forest with F1 score of 0.6, and computationally intensive.  
