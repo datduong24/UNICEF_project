@@ -1,4 +1,4 @@
-# UNICEF_project
+# UNICEF project
 
 This project develops and evaluates propensity models that estimate the likelihood of one-time donors switching to long-term commitments. The aim is to improve efficiency at UNICEF so that more resources can be allocated to children in need. 
 
@@ -57,11 +57,84 @@ Since only a small proportion of donors convert, we balanced classes by:
 - Using the `class_weight="balanced"` option where available.  
 - Applying sample reweighting for models without built-in class balancing.
 
-## Evaluation
+### Evaluation
 
 Models were compared using **Average F1 score** as the primary metric, given the class imbalance. ROC AUC and PR AUC were also reported for robustness.  
 
 - **Decision Tree** – offered high interpretability but had the weakest performance, with an F1-score of 0.58.
 - **Random Forest** – achieved strong predictive power with PR AUC of 0.182 and F1 score of 0.605, but required longer training times.  
 - **XGBoost** – delivered the best overall performance, achieving a **5x lift over the random baseline**  with PR AUC of 0.188 and performing twice as well as UNICEF’s current approach. The model achieved the F1 score of 0.608
-- **Neural Network** – underperformed compare to XGboost and Random forest with F1 score of 0.6, and computationally intensive.  
+- **Neural Network** – underperformed compare to XGboost and Random forest with F1 score of 0.6, and computationally intensive.
+
+### Key Business Insights:
+- **Model performance**: XGBoost achieved the strongest results, delivering a 5× lift over the random baseline and outperforming UNICEF’s current approach by nearly 2×.
+- **Demographic targeting**: Donors aged 20–40 from high-income suburbs had the highest conversion likelihood.  
+- **Recency effect**: Donors were most likely to convert shortly after their most recent gift, where the best window is 30 days after most recent gift  .  
+- **Financial impact**: Adopting the proposed strategy could save **~$100,000 annually (0.3–1% of conversion expenses)**.  
+
+These findings not only validate the model but also provide actionable strategies for improving UNICEF’s fundraising efficiency.  
+
+### Strategic recommendations: 
+- Adopt an early engagement strategy, with personalised nudges within 30 days of the last donation.
+- Use multi-channel outreach (SMS, email, direct mail) tailored to donor preferences.
+- Replace generic campaigns with data-driven, personalised flows, improving both conversion efficiency and donor experience
+
+### Tools & Libraries
+
+- **Data Handling & Analysis**
+  - Pandas  
+  - NumPy
+  - cuDF (GPU-accelerated dataframe library) 
+
+- **Visualization**
+  - Matplotlib  
+  - Seaborn  
+
+- **Statistical Analysis**
+  - SciPy (stats, point-biserial correlation, t-tests, chi-square tests, Mann–Whitney U test)  
+  - Statsmodels  
+
+- **Machine Learning**
+  - Scikit-learn (Logistic Regression, Decision Tree, Random Forest, KMeans, model selection, cross-validation, evaluation metrics)  
+  - XGBoost
+  - TensorFlow (Neural network)
+
+- **Utilities**
+  - Math 
+  - Warnings (suppressing unnecessary outputs)  
+  - Datetime (time-based features)  
+  - Random & String (sampling and helper functions)
+ 
+
+### Environment & Setup
+
+> This project requires **Linux (Ubuntu 20.04/22.04+)** and an **NVIDIA GPU** with compatible CUDA drivers to run **RAPIDS/cuDF**.  
+
+#### Prerequisites
+- NVIDIA GPU + recent NVIDIA driver
+- Conda/mamba (recommended: **Miniconda**)
+- CUDA version compatible with your target RAPIDS release (see RAPIDS compatibility matrix)
+
+#### Create the environment (GPU + RAPIDS)
+```bash
+# 0) Clone the repository
+git clone https://github.com/your-username/unicef_project.git
+cd unicef_project
+
+# 1) Install Miniconda if you don't have it 
+# 2) Create and activate an environment
+conda create -n unicef-rapids python=3.10 -y
+conda activate unicef-rapids
+
+# 3) Install RAPIDS (this pulls cuDF and friends)
+# Replace the placeholders with versions that match your driver:
+#   <RAPIDS_VERSION> e.g., 24.06
+#   <CUDA_VERSION>   e.g., 12.0 or 11.8
+conda install -y -c rapidsai -c conda-forge -c nvidia \
+  rapids=<RAPIDS_VERSION> cuda-version=<CUDA_VERSION>
+
+# 4) Install the rest of the Python deps (cuDF is installed via conda above)
+pip install -r requirements.txt
+
+# 5) Run the jupyter notebook
+jupyter notebook Assignment_group_3600-1.ipynb
