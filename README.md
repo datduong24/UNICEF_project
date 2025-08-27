@@ -79,6 +79,25 @@ These findings not only validate the model but also provide actionable strategie
 - Use multi-channel outreach (SMS, email, direct mail) tailored to donor preferences.
 - Replace generic campaigns with data-driven, personalised flows, improving both conversion efficiency and donor experience
 
+### Limitations & Assumptions
+
+- **Data quality and coverage**  
+  - The dataset contained gaps and missing values, especially in demographic attributes.  
+  - Proxy variables (e.g., postcode as a socioeconomic indicator) may not fully capture donor intent or loyalty.  
+  - Qualitative factors such as donor satisfaction or engagement sentiment were not available.  
+
+- **Model assumptions**  
+  - Insights were derived from historical data, which may not fully represent future donor behaviour.  
+  - Training data was skewed towards high-frequency donors, limiting generalisability across the full donor base.  
+  - Donor recency, channel preference, and postcode score were strong predictors, but may shift over time.  
+
+- **Financial projections**  
+  - Revenue impact was estimated assuming 12 months of continuous donor retention after conversion.  
+  - Attrition rates may vary, leading to potential overestimation of projected revenue.  
+  - Campaign cost estimates were based on typical public benchmarks and may differ from UNICEF’s actual operational costs.  
+
+Overall, these limitations highlight the need for broader data collection (e.g., age, gender, engagement history, online interactions) and ongoing model retraining to improve predictive accuracy and ensure results remain actionable in practice.
+
 ### Tools & Libraries
 
 - **Data Handling & Analysis**
@@ -105,6 +124,14 @@ These findings not only validate the model but also provide actionable strategie
   - Datetime (time-based features)  
   - Random & String (sampling and helper functions)
  
+### Author
+- Dat Duong: Data preporcessing, visualization, feature engineering, model development, evaluation, reporting
+- Mai Mai: Data preporcessing, business analysis, reporting
+- Sophia Nguyen: Cost-benefit analysis, strategic recommendation, reporting
+- Chloe Nguyen: Data preprocessing, trategic recommendation, reporting
+- Merry Trinh: Marketing recommendation, reporting, cost analysis
+
+
 
 ### Environment & Setup
 
@@ -138,3 +165,5 @@ pip install -r requirements.txt
 
 # 5) Run the jupyter notebook
 jupyter notebook Assignment_group_3600-1.ipynb
+
+
