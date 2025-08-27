@@ -64,7 +64,9 @@ Models were compared using **Average F1 score** as the primary metric, given the
 - **Decision Tree** – offered high interpretability but had the weakest performance, with an F1-score of 0.58.
 - **Random Forest** – achieved strong predictive power with PR AUC of 0.182 and F1 score of 0.605, but required longer training times.  
 - **XGBoost** – delivered the best overall performance, achieving a **5x lift over the random baseline**  with PR AUC of 0.188 and performing twice as well as UNICEF’s current approach. The model achieved the F1 score of 0.608
-- **Neural Network** – underperformed compare to XGboost and Random forest with F1 score of 0.6, and computationally intensive.
+- **Neural Network** – underperformed compared to XGboost and Random forest with F1 score of 0.6, and computationally intensive.
+  
+While all models achieved similar F1-scores (~0.6), XGBoost provided the largest PR AUC (0.188) and a 5× lift over random baseline, making it the most effective approach.
 
 ### Key Business Insights:
 - **Model performance**: XGBoost achieved the strongest results, delivering a 5× lift over the random baseline and outperforming UNICEF’s current approach by nearly 2×.
@@ -124,13 +126,12 @@ Overall, these limitations highlight the need for broader data collection (e.g.,
   - Datetime (time-based features)  
   - Random & String (sampling and helper functions)
  
-### Author
-- Dat Duong: Data preporcessing, visualization, feature engineering, model development, evaluation, reporting
-- Mai Mai: Data preporcessing, business analysis, reporting
-- Sophia Nguyen: Cost-benefit analysis, strategic recommendation, reporting
-- Chloe Nguyen: Data preprocessing, trategic recommendation, reporting
-- Merry Trinh: Marketing recommendation, reporting, cost analysis
-
+### Authors
+- **Dat Duong** – Data preprocessing, visualization, feature engineering, model development, evaluation, reporting  
+- **Mai Mai** – Data preprocessing, business analysis, reporting  
+- **Sophia Nguyen** – Cost-benefit analysis, strategic recommendation, reporting  
+- **Chloe Nguyen** – Data preprocessing, strategic recommendation, reporting  
+- **Merry Trinh** – Marketing recommendation, reporting, cost analysis  
 
 
 ### Environment & Setup
